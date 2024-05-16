@@ -9,12 +9,19 @@
         return view('welcome');
     });
 
-    Route::prefix('/blog')->name('blog.')->group(function () {
-        Route::get('/', [BlogController::class, 'index'])->name('index');
+    Route::prefix('/blog')->name('blog.')->controller(BlogController::class)->group(function () {
 
-        Route::get('/{slug}/{id}', [BlogController::class, 'show'])->where([
-            'id' => '[0-9]+',
-            'slug' => '[a-z0-9\-]+'
-        ])
-            ->name('show');
+        Route::get('/', 'index')->name('index');
+
+        Route::get('/new', 'create')->name('create');
+
+        Route::post('/new', 'store');
+
+        Route::get('/{post:slug}', 'show')->where([
+            'post' => '[a-z0-9\-]+'
+        ])->name('show');
+
+        Route::get('/{post:slug}/edit', 'edit')->name('edit');
+
+        Route::post('/{post:slug}/edit', 'update');
     });
