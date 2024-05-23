@@ -8,6 +8,15 @@
 @foreach ($posts as $post)
 <article>
     <h2>{{ $post->name }}</h2>
+    @if ($post->category)
+        <span>Catégorie : {{ $post->category->name }}</span>
+    @endif
+
+    @if (!$post->tags->isEmpty())
+        @foreach ($post->tags as $tag)
+            <span>{{ $tag->name }}</span>
+        @endforeach
+    @endif
     <p>
         {{ $post->content }}
     </p>

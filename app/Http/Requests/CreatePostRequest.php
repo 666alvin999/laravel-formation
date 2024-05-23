@@ -7,29 +7,27 @@
     use Illuminate\Validation\Rule;
 
     class CreatePostRequest extends FormRequest {
-        /**
-         * Determine if the user is authorized to make this request.
-         */
+
         public function authorize(): bool {
             return true;
         }
 
-        /**
-         * Get the validation rules that apply to the request.
-         *
-         * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-         */
-        public function rules(): array {
+        public function rules(): array
+        {
             return [
-                'name' => ['required', 'min:8', 'max:40'],
+                'title' => ['required', 'min:8', 'max:40'],
                 'slug' => ['required', 'min:8', 'regex:/^[a-z0-9\-]+$/', Rule::unique('posts')->ignore($this->route()->parameter('post'))],
-                'content' => ['required']
+                'content' => ['required'],
+                'category_id' => ['required', 'exists:categories,id'],
+                'tags' => ['array', 'exists:tags,id', 'required']
             ];
         }
 
-        protected function prepareForValidation() {
+        protected function prepareForValidation()
+        {
             $this->merge([
-                'slug' => $this->input('slug') ?: Str::slug($this->input('name'))
+                'slug' => $this->input('slug') ?: Str::slug($this->input('title'))
             ]);
         }
+
     }

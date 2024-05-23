@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Category extends Model
+class Auteur extends Model
 {
     use HasFactory;
 
@@ -14,6 +14,10 @@ class Category extends Model
         return $this->hasMany(Post::class);
     }
 
-    protected $fillable = ['name'];
-
+    protected $fillable = [
+        'nom',
+        'prenom',
+        'email',
+        'descriptif'
+    ];
 }
